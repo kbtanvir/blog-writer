@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from agents.writer import BlogWriter
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog_writer.db"
@@ -11,7 +12,6 @@ migrate = Migrate(app, db)
 
 
 # MODELS
-
 
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -44,7 +44,6 @@ def write():
     key_points = request.form["key_points"]
 
     # Create a new article
-
     article = Article(topic=topic, length=length, key_points=key_points)
     db.session.add(article)
     db.session.commit()
@@ -72,6 +71,24 @@ def delete(id):
     db.session.delete(article)
     db.session.commit()
     return redirect(url_for("index"))
+
+
+@app.route("/generate/<int:id>", methods=["POST"])
+def generate(id):
+    article = Article.query.get_or_404(id)
+
+    # Generate the blog post using BlogWriter
+    writer = BlogWriter(topic=article.topic, length=article.length, outline=article.key_points)
+    result = writer.generate()
+
+    # Assuming result contains the generated post and review
+    article.post = result.get("post")
+    article.review = result.get("review")
+
+    db.session.commit()
+
+    return redirect(url_for("index"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
