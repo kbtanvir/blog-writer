@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blog Writer</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        content: ["./*.html"],
+        darkMode: "class",
+      };
+    </script>
+  </head>
+  <body class="px-10">
+    <h1 class="text-3xl font-bold text-center mb-8">Blog Writer</h1>
+    <form
+      action="{{ url_for('write') }}"
+      method="post"
+      class="flex flex-col space-y-4 px-4 py-8 border border-gray-200 rounded-md"
+    >
+      <label for="topic" class="text-gray-700 font-medium">Topic:</label>
+      <input
+        type="text"
+        id="topic"
+        name="topic"
+        class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300"
+      />
+      <label for="length" class="text-gray-700 font-medium">Length:</label>
+      <input
+        type="number"
+        id="length"
+        name="length"
+        class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300"
+      />
+      <label for="key_points" class="text-gray-700 font-medium"
+        >Key Points:</label
+      >
+      <textarea
+        id="key_points"
+        name="key_points"
+        class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300 h-24"
+      ></textarea>
+      <input
+        type="submit"
+        value="Write"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+      />
+    </form>
+
+    <h1 class="text-2xl font-bold text-center my-8">Blog Post Titles</h1>
+    <div class="overflow-x-auto">
+      <div class="grid grid-cols-4 gap-0">
+        <div class="py-2 px-4 border font-bold border-gray-200">Topic</div>
+        <div class="py-2 px-4 border font-bold border-gray-200">Length</div>
+        <div class="py-2 px-4 border font-bold border-gray-200">Key Points</div>
+        <div class="py-2 px-4 border font-bold border-gray-200">Actions</div>
+
+        {% for article in articles %}
+        <div class="py-2 px-4 border border-gray-200">{{ article.topic }}</div>
+        <div class="py-2 px-4 border border-gray-200">{{ article.length }}</div>
+        <div class="py-2 px-4 border border-gray-200">
+          {{ article.key_points }}
+        </div>
+        <div class="py-2 px-4 border border-gray-200 flex space-x-2">
+          <a
+            href="{{ url_for('edit', id=article.id) }}"
+            class="text-blue-500 hover:underline"
+            >Edit</a
+          >
+          <form
+            action="{{ url_for('delete', id=article.id) }}"
+            method="post"
+            class="inline"
+          >
+            <button type="submit" class="text-red-500 hover:underline">
+              Delete
+            </button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
