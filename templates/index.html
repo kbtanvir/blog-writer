@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Blog Writer</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -11,7 +11,7 @@
       };
     </script>
   </head>
-  <body class="px-10">
+  <body class="p-10">
     <h1 class="text-3xl font-bold text-center mb-8">Blog Writer</h1>
     <form
       action="{{ url_for('write') }}"
@@ -24,6 +24,7 @@
         id="topic"
         name="topic"
         class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300"
+        required
       />
       <label for="length" class="text-gray-700 font-medium">Length:</label>
       <input
@@ -31,15 +32,9 @@
         id="length"
         name="length"
         class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300"
+        required
       />
-      <label for="key_points" class="text-gray-700 font-medium"
-        >Key Points:</label
-      >
-      <textarea
-        id="key_points"
-        name="key_points"
-        class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300 h-24"
-      ></textarea>
+
       <input
         type="submit"
         value="Add topics"

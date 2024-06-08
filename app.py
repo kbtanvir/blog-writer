@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from agents.writer import BlogWriter
+from agents.writer import BlogWriterAgent, TopicGeneratorAgent
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog_writer.db"
@@ -78,12 +78,34 @@ def generate(id):
     article = Article.query.get_or_404(id)
 
     # Generate the blog post using BlogWriter
-    writer = BlogWriter(topic=article.topic, length=article.length, outline=article.key_points)
+    writer = BlogWriterAgent(topic=article.topic, length=article.length)
     result = writer.generate()
 
     article.post = result
 
     db.session.commit()
+
+    return jsonify(result)
+
+
+@app.route("/generate/topics", methods=["GET"])
+def generate_topics():
+    # niche = request.form["topic"]
+    # count = int(request.form["length"])
+
+    # Let agent work
+
+    agent = TopicGeneratorAgent(
+        # niche=niche, count=count
+    )
+
+    result: list[str] = agent.generate()
+
+    for topic in result:
+        # Create a new article
+        article = Article(topic=topic, length=200, key_points='')
+        db.session.add(article)
+        db.session.commit()
 
     return jsonify(result)
 
