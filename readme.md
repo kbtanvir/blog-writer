@@ -1,5 +1,11 @@
 # Blog Content Generator
 
+![image](https://github.com/kbtanvir/blog-writer-ai/assets/52887114/4edc1d62-661b-40a1-90e1-eefbb220811d)
+
+![image](https://github.com/kbtanvir/blog-writer-ai/assets/52887114/d6d99306-91f7-4a00-b31d-5eb53896c265)
+
+
+
 ## Overview
 
 The Blog Content Generator is a Flask-based web application designed to streamline the process of generating blog content. The application allows users to generate engaging topics within a specified niche and subsequently create well-structured blog posts based on those topics.
