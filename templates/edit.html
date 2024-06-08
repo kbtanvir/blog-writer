@@ -31,62 +31,55 @@
       }
       #post ul {
         margin-left: 50px;
-         margin-bottom: 20px;
+        margin-bottom: 20px;
       }
       #post li {
         list-style: disc;
       }
     </style>
   </head>
-  <body class="p-10">
-    <h1 class="text-3xl font-bold text-center mb-8">Edit Article</h1>
-    <form
-      action="{{ url_for('edit', id=article.id) }}"
-      method="post"
-      class="flex flex-col space-y-4 px-4 py-8 border border-gray-200 rounded-md"
-    >
-      <label for="topic" class="text-gray-700 font-medium">Topic:</label>
-      <input
-        type="text"
-        id="topic"
-        name="topic"
-        value="{{ article.topic }}"
-        class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300"
-      />
-      <label for="length" class="text-gray-700 font-medium">Length:</label>
-      <input
-        type="number"
-        id="length"
-        name="length"
-        value="{{ article.length }}"
-        class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300"
-      />
-      <label for="key_points" class="text-gray-700 font-medium"
-        >Key Points:</label
+  <body class="p-10 ">
+    <main class='max-w-xl mx-auto'>
+      <h1 class="text-3xl font-bold text-center mb-8">Edit Article</h1>
+      <form
+        action="{{ url_for('edit', id=article.id) }}"
+        method="post"
+        class="flex flex-col space-y-4 px-4 py-8 border border-gray-200 rounded-md"
       >
-      <textarea
-        id="key_points"
-        name="key_points"
-        class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300 h-24"
-      >
-{{ article.key_points }}</textarea
-      >
-      <input
-        type="submit"
-        value="Update"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
-      />
-    </form>
-    <button
-      id="generate-button"
-      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md mt-4"
-      onclick="generateArticle()"
-    >
-      Generate article
-    </button>
+        <label for="topic" class="text-gray-700 font-medium">Topic:</label>
+        <input
+          type="text"
+          id="topic"
+          name="topic"
+          value="{{ article.topic }}"
+          class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300"
+        />
+        <label for="length" class="text-gray-700 font-medium">Length:</label>
+        <input
+          type="number"
+          id="length"
+          name="length"
+          value="{{ article.length }}"
+          class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300"
+        />
 
-    <!-- Optionally display generated post and review -->
-    <div id="post" class="mt-8 [*>h1:font-bold]">{{ article.post|safe }}</div>
+        <input
+          type="submit"
+          value="Update"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+        />
+      </form>
+      <button
+        id="generate-button"
+        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md mt-4"
+        onclick="generateArticle()"
+      >
+        Generate article
+      </button>
+
+      <!-- Optionally display generated post and review -->
+      <div id="post" class="mt-8 [*>h1:font-bold]">{{ article.post|safe }}</div>
+    </main>
     <script>
       async function generateArticle() {
         const articleId = {{ article.id }};
@@ -100,8 +93,6 @@
         if (response.ok) {
           console.log(response)
           const result = await response.json();
-          alert('Article generated successfully');
-          // Optionally, you can update the page with the new content
           document.getElementById('post').innerHTML = result;
         } else {
           alert('Failed to generate article');

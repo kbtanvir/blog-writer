@@ -1,9 +1,8 @@
+from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, Process
-import os
 
-os.environ["OPENAI_API_BASE"] = "https://api.groq.com/openai/v1"
-os.environ["OPENAI_MODEL_NAME"] = "llama3-70b-8192"
-os.environ["OPENAI_API_KEY"] = "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"  # paste your api key here
+load_dotenv()
+
 
 ticket = "Customer support ticket: Unable to access account"
 
@@ -49,5 +48,3 @@ crew = Crew(
 
 # Execute the Crew
 output = crew.kickoff()
-print('result :::::')
-print(output)
