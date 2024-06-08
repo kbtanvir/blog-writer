@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from agents.writer import BlogWriter
@@ -81,13 +81,11 @@ def generate(id):
     writer = BlogWriter(topic=article.topic, length=article.length, outline=article.key_points)
     result = writer.generate()
 
-    # Assuming result contains the generated post and review
-    article.post = result.get("post")
-    article.review = result.get("review")
+    article.post = result
 
     db.session.commit()
 
-    return redirect(url_for("index"))
+    return jsonify(result)
 
 
 if __name__ == "__main__":

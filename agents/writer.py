@@ -1,8 +1,8 @@
-# writer.py
 
+from dotenv import load_dotenv
 from crewai import Agent, Task, Crew, Process
 
-
+load_dotenv()
 
 
 class BlogWriter:
@@ -36,7 +36,7 @@ class BlogWriter:
         self.edit_blog_post = Task(
             description="Review and edit the generated blog post to ensure it meets the quality standards and structure requirements.",
             agent=self.blog_editor,
-            expected_output="A polished and refined blog post ready for publication."
+            expected_output="A polished, proper html tags applied to titles, paragraphs and refined blog post ready for publication."
         )
 
         self.blog_writer_crew = Crew(
@@ -49,3 +49,8 @@ class BlogWriter:
     def generate(self):
         output = self.blog_writer_crew.kickoff()
         return output
+
+
+# writer = BlogWriter("Who am i", "How long is it?", "What structure does it have?")
+
+# writer.generate()

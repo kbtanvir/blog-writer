@@ -9,4 +9,4 @@ custom_model_name="crewai-llama3:8b"
 ollama pull $model_name
 
 #create the model file
-ollama create $custom_model_name -f ./Llama2ModelFile
+ollama create $custom_model_name -f Llama2ModelFile

@@ -1,14 +1,10 @@
+from langchain_community.llms import ollama
 from crewai import Agent, Task, Crew,Process
 from langchain_openai import ChatOpenAI
 import os
 os.environ["OPENAI_API_KEY"] = "NA"
-
 # Llama3:8b model
-llm = ChatOpenAI(
-    model="crewai-llama2",
-    base_url="http://localhost:11434/v1"
-)
-
+llm = ollama(model="llama3")
 topic = "Why climate is changing fast?"
 length = 200
 

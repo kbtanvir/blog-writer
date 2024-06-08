@@ -10,32 +10,27 @@
     <script>
       tailwind.config = {
         content: ["./*.html"],
+
         darkMode: "class",
       };
     </script>
-    <script>
-      async function generateArticle() {
-        const articleId = {{ article.id }};
-        const response = await fetch(`/generate/${articleId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          alert('Article generated successfully');
-          // Optionally, you can update the page with the new content
-          document.getElementById('post').innerText = result.post;
-          document.getElementById('review').innerText = result.review;
-        } else {
-          alert('Failed to generate article');
-        }
+    <style>
+      #post h1 {
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 10px;
       }
-    </script>
+      #post h2 {
+        font-weight: bold;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      #post p {
+        margin-bottom: 20px;
+      }
+    </style>
   </head>
-  <body class="px-10">
+  <body class="p-10">
     <h1 class="text-3xl font-bold text-center mb-8">Edit Article</h1>
     <form
       action="{{ url_for('edit', id=article.id) }}"
@@ -58,12 +53,16 @@
         value="{{ article.length }}"
         class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300"
       />
-      <label for="key_points" class="text-gray-700 font-medium">Key Points:</label>
+      <label for="key_points" class="text-gray-700 font-medium"
+        >Key Points:</label
+      >
       <textarea
         id="key_points"
         name="key_points"
         class="px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-500 border border-gray-300 h-24"
-      >{{ article.key_points }}</textarea>
+      >
+{{ article.key_points }}</textarea
+      >
       <input
         type="submit"
         value="Update"
@@ -79,13 +78,28 @@
     </button>
 
     <!-- Optionally display generated post and review -->
-    <div id="post" class="mt-8">
-      <h2 class="text-2xl font-bold">Generated Post</h2>
-      <p>{{ article.post }}</p>
-    </div>
-    <div id="review" class="mt-8">
-      <h2 class="text-2xl font-bold">Review</h2>
-      <p>{{ article.review }}</p>
-    </div>
+    <h2 class="text-2xl font-bold">Generated Post</h2>
+    <div id="post" class="mt-8 [*>h1:font-bold]">{{ article.post|safe }}</div>
+    <script>
+      async function generateArticle() {
+        const articleId = {{ article.id }};
+        const response = await fetch(`/generate/${articleId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          console.log(response)
+          const result = await response.json();
+          alert('Article generated successfully');
+          // Optionally, you can update the page with the new content
+          document.getElementById('post').innerText = JSON.parse(result);
+        } else {
+          alert('Failed to generate article');
+        }
+      }
+    </script>
   </body>
 </html>
